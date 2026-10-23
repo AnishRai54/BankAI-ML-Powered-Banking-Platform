@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent
 MODEL_ROOT = ROOT / "artifacts" / "models"
 DATABASE_PATH = ROOT / "streamlit_bankai.db"
 
-st.set_page_config(page_title="BankAI", page_icon="🏦", layout="wide")
+st.set_page_config(page_title="BankAI", page_icon="🏦", layout="wide", initial_sidebar_state="expanded")
 
 
 def apply_design() -> None:
@@ -84,9 +84,24 @@ def apply_design() -> None:
       .result-value { display:block; font-size:2.1rem; letter-spacing:-.05em; margin:.6rem 0 0; }
       .result-note { color:#475569; font-size:.84rem; margin:.7rem 0 0; }
       .estimate { background:#effcf9; border-color:#bfe8e2; } .segment { background:#f5f3ff; border-color:#ddd6fe; }
-      @media(max-width: 900px) { section[data-testid="stSidebar"] { width:64px !important; }
-        .block-container { padding:1.6rem 1rem; } .bankai-brand, .platform-label, section[data-testid="stSidebar"] p { font-size:0 !important; }
-        .bankai-brand b { font-size:1.4rem !important; } }
+      @media(max-width: 900px) {
+        section[data-testid="stSidebar"], section[data-testid="stSidebar"] > div {
+          width:min(18rem, 86vw) !important; min-width:min(18rem, 86vw) !important;
+        }
+        .block-container { padding:1.6rem 1rem 2.25rem; }
+        .bankai-brand { font-size:25px !important; }
+        .platform-label { font-size:10px !important; }
+        section[data-testid="stSidebar"] [data-testid="stRadio"] label p { font-size:.9rem !important; }
+      }
+      @media(max-width: 640px) {
+        .block-container { padding:1.25rem .9rem 2rem; }
+        .notice { align-items:flex-start; flex-direction:column; gap:.25rem; }
+        div[data-testid="stHorizontalBlock"] { flex-direction:column; gap:1rem; }
+        div[data-testid="column"] { width:100% !important; min-width:100% !important; }
+        .module-heading { padding:1.15rem 1rem .15rem; }
+        .module-mark { right:1rem; top:1rem; }
+        div[data-testid="stForm"] { padding:1rem; }
+      }
     </style>
     """, unsafe_allow_html=True)
 
