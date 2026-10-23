@@ -1,0 +1,22 @@
+{
+  "model_name": "customer_segmentation",
+  "version": "1.0.0",
+  "dataset": "bank.zip:bank-full.csv",
+  "rows_used": 45211,
+  "features": [
+    "age",
+    "balance",
+    "campaign",
+    "pdays",
+    "previous"
+  ],
+  "metrics": {
+    "silhouette_score": 0.35662036518174556
+  },
+  "leakage_controls": [
+    "Unsupervised clustering: y not used",
+    "duration excluded because it is measured during the call and unsuitable for a pre-contact profile",
+    "Clusters are descriptive groups, not risk categories or offers"
+  ],
+  "trained_at": "2026-10-23T03:54:52.794322+00:00"
+}

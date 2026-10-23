@@ -1,0 +1,30 @@
+{
+  "model_name": "credit_risk",
+  "version": "1.0.0",
+  "dataset": "application_train.csv",
+  "rows_used": 307511,
+  "features": [
+    "CNT_CHILDREN",
+    "AMT_INCOME_TOTAL",
+    "AMT_CREDIT",
+    "AMT_ANNUITY",
+    "DAYS_BIRTH",
+    "DAYS_EMPLOYED",
+    "REGION_RATING_CLIENT",
+    "EXT_SOURCE_2"
+  ],
+  "metrics": {
+    "precision": 0.13175891310294519,
+    "recall": 0.5820745216515609,
+    "f1": 0.21487787650098517,
+    "roc_auc": 0.6711161048561052,
+    "pr_auc": 0.16038028106724228
+  },
+  "leakage_controls": [
+    "Stratified holdout split",
+    "TARGET excluded from features",
+    "Preprocessing fitted on training partition only",
+    "No relational tables joined because temporal alignment must be validated first"
+  ],
+  "trained_at": "2026-10-23T03:54:42.756824+00:00"
+}

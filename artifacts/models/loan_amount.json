@@ -1,0 +1,28 @@
+{
+  "model_name": "loan_amount",
+  "version": "1.0.0",
+  "dataset": "application_train.csv (AMT_CREDIT)",
+  "rows_used": 307511,
+  "features": [
+    "CNT_CHILDREN",
+    "AMT_INCOME_TOTAL",
+    "DAYS_BIRTH",
+    "DAYS_EMPLOYED",
+    "REGION_RATING_CLIENT",
+    "NAME_INCOME_TYPE",
+    "NAME_EDUCATION_TYPE",
+    "NAME_FAMILY_STATUS",
+    "NAME_HOUSING_TYPE"
+  ],
+  "metrics": {
+    "mae": 266852.66527076234,
+    "rmse": 366137.8347857711,
+    "r2": 0.16231139091272695
+  },
+  "leakage_controls": [
+    "Holdout split before preprocessing",
+    "AMT_CREDIT is the target",
+    "AMT_ANNUITY and AMT_GOODS_PRICE deliberately excluded as likely contemporaneous/derived amount fields"
+  ],
+  "trained_at": "2026-10-23T03:55:34.350363+00:00"
+}

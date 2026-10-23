@@ -1,0 +1,23 @@
+{
+  "model_name": "sms_security",
+  "version": "1.0.0",
+  "dataset": "spam.csv",
+  "rows_used": 5572,
+  "features": [
+    "v2"
+  ],
+  "metrics": {
+    "precision": 0.9586206896551724,
+    "recall": 0.9328859060402684,
+    "f1": 0.9455782312925171,
+    "roc_auc": 0.9910167159948311,
+    "pr_auc": 0.9745340644184325
+  },
+  "leakage_controls": [
+    "Stratified holdout split",
+    "Only label v1 and message v2 used",
+    "Empty export columns excluded",
+    "Spam probability is decision support, not a safety guarantee"
+  ],
+  "trained_at": "2026-10-23T03:54:48.708837+00:00"
+}
