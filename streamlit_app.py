@@ -18,6 +18,90 @@ DATABASE_PATH = ROOT / "streamlit_bankai.db"
 st.set_page_config(page_title="BankAI", page_icon="🏦", layout="wide")
 
 
+def apply_design() -> None:
+    """Bring the Streamlit shell in line with the original BankAI dashboard."""
+    st.markdown("""
+    <style>
+      :root { --navy:#0b1220; --blue:#2563eb; --teal:#14b8a6; --paper:#f8fafc;
+              --line:#e2e8f0; --muted:#64748b; --ink:#162033; --card:#fff; }
+      .stApp { background:var(--paper); color:var(--ink); }
+      header[data-testid="stHeader"] { background:transparent; }
+      #MainMenu, footer { visibility:hidden; }
+      .block-container { max-width:1500px; padding:2.6rem clamp(1.5rem,5vw,4.5rem) 3rem; }
+      section[data-testid="stSidebar"] { background:var(--navy); width:250px !important; }
+      section[data-testid="stSidebar"] > div { background:var(--navy); padding:1.55rem 1rem; }
+      section[data-testid="stSidebar"] * { color:#afbdd1; }
+      .bankai-brand { color:#fff; font-size:25px; font-weight:750; letter-spacing:-.03em; margin:0 0 .15rem; }
+      .bankai-brand b { color:var(--teal); }
+      .platform-label { color:#91a4c2 !important; font-size:10px; font-weight:800; letter-spacing:.12em; margin:0 0 1.5rem; }
+      section[data-testid="stSidebar"] [data-testid="stRadio"] label {
+        border-radius:8px; color:#afbdd1; padding:.6rem .7rem; margin:0 0 .25rem;
+      }
+      section[data-testid="stSidebar"] [data-testid="stRadio"] label:has(input:checked) { background:#21304a; color:#fff; }
+      section[data-testid="stSidebar"] [data-testid="stRadio"] label p { font-size:.9rem; font-weight:600; }
+      section[data-testid="stSidebar"] [data-testid="stRadio"] input { display:none; }
+      h1, h2, h3 { color:var(--ink); letter-spacing:-.035em; }
+      h1 { font-size:clamp(1.75rem,3vw,2.5rem) !important; margin:.3rem 0 .25rem !important; }
+      h2 { font-size:1.25rem !important; }
+      .eyebrow { color:var(--muted); font-size:.68rem; font-weight:800; letter-spacing:.12em; margin:0; }
+      .subhead { color:var(--muted); max-width:700px; margin:0 0 1.4rem; line-height:1.55; }
+      .notice { display:flex; gap:.8rem; align-items:center; background:#e9f7f5; border:1px solid #bfe8e2;
+                color:#17665d; padding:.8rem 1rem; border-radius:10px; margin:0 0 1.4rem; }
+      .notice b { white-space:nowrap; }
+      div[data-testid="stMetric"] { background:var(--card); border:1px solid var(--line); border-radius:12px;
+                                    box-shadow:0 4px 15px #17255408; padding:1.15rem; }
+      div[data-testid="stMetricLabel"] { color:var(--muted); font-size:.8rem; }
+      div[data-testid="stMetricValue"] { font-size:1.7rem; }
+      div[data-testid="stForm"] { background:var(--card); border:1px solid var(--line); border-radius:12px;
+                                    box-shadow:0 4px 15px #17255408; padding:1.45rem; }
+      div[data-testid="stForm"] [data-testid="stNumberInput"],
+      div[data-testid="stForm"] [data-testid="stSelectbox"],
+      div[data-testid="stForm"] [data-testid="stTextArea"] { margin-bottom:.3rem; }
+      label, [data-testid="stWidgetLabel"] p { font-size:.78rem !important; font-weight:700 !important; }
+      input, textarea, [data-baseweb="select"] > div { border-color:var(--line) !important; border-radius:7px !important; }
+      .stButton button, .stFormSubmitButton button { background:var(--blue) !important; border:0 !important;
+         border-radius:7px !important; color:#fff !important; font-weight:750 !important; padding:.58rem .9rem !important; }
+      .module-heading { position:relative; background:var(--card); border:1px solid var(--line); border-radius:12px 12px 0 0;
+                        padding:1.35rem 1.45rem .2rem; margin-bottom:-.25rem; }
+      .module-heading h2 { margin:.25rem 0 .35rem; }
+      .module-heading p:last-child { color:var(--muted); max-width:720px; margin:0 0 .8rem; }
+      .module-mark { position:absolute; top:1.25rem; right:1.35rem; width:34px; height:34px; display:grid; place-items:center;
+                     border-radius:8px; font-size:.68rem; font-weight:850; }
+      .blue { background:#dbeafe; color:#1d4ed8; } .teal { background:#ccfbf1; color:#0f766e; }
+      .amber { background:#fef3c7; color:#b45309; } .violet { background:#ede9fe; color:#6d28d9; }
+      .red { background:#fee2e2; color:#b91c1c; }
+      .result-card { margin-top:1rem; border:1px solid var(--line); border-radius:10px; padding:1.25rem; background:#f8fafc; }
+      .risk-hero { text-align:center; background:linear-gradient(145deg,#fbfdff,#f3f7fc); border-color:#dbe5f0; }
+      .score-orbit { --score:0%; --risk-accent:#2563eb; width:150px; aspect-ratio:1; margin:1rem auto;
+          border-radius:50%; display:grid; place-items:center; background:conic-gradient(var(--risk-accent) var(--score),#e4eaf1 0); }
+      .score-core { width:124px; height:124px; border-radius:50%; display:grid; place-content:center; background:#fff;
+                    box-shadow:inset 0 0 0 1px var(--line); }
+      .score-core strong { font-size:2.2rem; letter-spacing:-.07em; line-height:1; }
+      .score-core span, .result-caption, .result-meta { color:var(--muted); font-size:.75rem; }
+      .risk-low { --risk-accent:#16a34a; } .risk-medium { --risk-accent:#f59e0b; } .risk-high { --risk-accent:#dc2626; }
+      .risk-low h3 { color:#15803d; } .risk-medium h3 { color:#b45309; } .risk-high h3 { color:#b91c1c; }
+      .result-label { color:var(--muted); font-size:.65rem; font-weight:800; letter-spacing:.11em; }
+      .result-value { display:block; font-size:2.1rem; letter-spacing:-.05em; margin:.6rem 0 0; }
+      .result-note { color:#475569; font-size:.84rem; margin:.7rem 0 0; }
+      .estimate { background:#effcf9; border-color:#bfe8e2; } .segment { background:#f5f3ff; border-color:#ddd6fe; }
+      @media(max-width: 900px) { section[data-testid="stSidebar"] { width:64px !important; }
+        .block-container { padding:1.6rem 1rem; } .bankai-brand, .platform-label, section[data-testid="stSidebar"] p { font-size:0 !important; }
+        .bankai-brand b { font-size:1.4rem !important; } }
+    </style>
+    """, unsafe_allow_html=True)
+
+
+def module_heading(mark: str, color: str, eyebrow: str, title: str, copy: str) -> None:
+    st.markdown(f"""
+    <section class="module-heading"><span class="module-mark {color}">{mark}</span>
+      <p class="eyebrow">{eyebrow}</p><h2>{title}</h2><p>{copy}</p>
+    </section>
+    """, unsafe_allow_html=True)
+
+
+apply_design()
+
+
 @st.cache_resource
 def get_service() -> PredictionService:
     """Create one lazily-loaded model service per Streamlit process."""
@@ -39,19 +123,38 @@ def predict(model_name: str, payload: dict[str, Any]) -> dict[str, Any] | None:
 def show_result(result: dict[str, Any]) -> None:
     if "risk_probability" in result:
         probability = result["risk_probability"]
-        st.metric("Estimated risk probability", f"{probability:.1%}", result["risk_category"].title())
-        st.progress(probability)
+        category = result["risk_category"]
+        st.markdown(f"""
+        <section class="result-card risk-hero risk-{category}">
+          <span class="result-label">MODEL RISK ASSESSMENT</span>
+          <div class="score-orbit" style="--score:{probability * 100:.1f}%"><div class="score-core">
+             <strong>{probability:.1%}</strong><span>risk score</span></div></div>
+          <h3>{category.upper()} RISK</h3>
+          <p class="result-note">Estimated model probability. Review is required before taking any action.</p>
+          <p class="result-meta">Model {result['model_version']} · {result['latency_ms']} ms</p>
+        </section>
+        """, unsafe_allow_html=True)
     elif "estimated_amount" in result:
-        st.metric("Indicative amount", f"{result['estimated_amount']:,.0f}")
+        st.markdown(f"""
+        <section class="result-card estimate"><span class="result-label">INDICATIVE ESTIMATE</span>
+          <strong class="result-value">{result['estimated_amount']:,.0f}</strong>
+          <span class="result-caption">Estimated credit amount in dataset units</span>
+          <p class="result-note">Model {result['model_version']} · {result['latency_ms']} ms</p>
+        </section>
+        """, unsafe_allow_html=True)
     else:
-        st.success(f"{result['segment']} (ID {result['cluster_id']})")
+        st.markdown(f"""
+        <section class="result-card segment"><span class="result-label">DESCRIPTIVE GROUP</span>
+          <strong class="result-value">{result['segment']}</strong>
+          <span class="result-caption">Behavior-pattern grouping · Cluster ID {result['cluster_id']}</span>
+        </section>
+        """, unsafe_allow_html=True)
     if advisory := result.get("advisory"):
         st.caption(advisory)
 
 
 def credit_risk_page() -> None:
-    st.header("Credit-risk assessment")
-    st.caption("Demo decision support only. It must not be used to approve, decline, or price credit.")
+    module_heading("CR", "blue", "CREDIT INTELLIGENCE", "Credit-risk check", "Enter an authorized application profile. Values use the training dataset’s units, not a live bank credit score.")
     with st.form("credit_risk"):
         first, second = st.columns(2)
         with first:
@@ -77,8 +180,7 @@ def credit_risk_page() -> None:
 
 
 def loan_amount_page() -> None:
-    st.header("Indicative loan amount")
-    st.caption("An illustrative regression estimate, not a bank offer or lending decision.")
+    module_heading("LN", "teal", "LOAN ANALYTICS", "Indicative loan estimate", "This is a research estimate from the available dataset — not a bank offer.")
     with st.form("loan_amount"):
         first, second = st.columns(2)
         with first:
@@ -105,8 +207,7 @@ def loan_amount_page() -> None:
 
 
 def sms_page() -> None:
-    st.header("SMS security check")
-    st.caption("This classifies messages as likely spam or ham. It does not certify a message as safe.")
+    module_heading("SM", "amber", "SMS SECURITY", "Check a message", "Paste an SMS to estimate spam likelihood. A low score does not mean the message is safe.")
     with st.form("sms"):
         message = st.text_area("SMS message", placeholder="Paste an SMS message to assess", max_chars=3000)
         submitted = st.form_submit_button("Check message", type="primary")
@@ -120,8 +221,7 @@ def sms_page() -> None:
 
 
 def segmentation_page() -> None:
-    st.header("Customer segmentation")
-    st.caption("Clusters are descriptive only and must not be used for eligibility or credit decisions.")
+    module_heading("CI", "violet", "CUSTOMER INTELLIGENCE", "Find a descriptive segment", "Groups behavior patterns only. It does not determine credit eligibility.")
     with st.form("segmentation"):
         first, second = st.columns(2)
         with first:
@@ -139,8 +239,8 @@ def segmentation_page() -> None:
 
 
 def fraud_page() -> None:
-    st.header("Fraud-screening model")
-    st.warning("Use only de-identified, authorised test data. This baseline needs all 30 anonymised dataset features.")
+    module_heading("FR", "red", "FRAUD INTELLIGENCE", "Analyst-only fraud scoring", "This baseline uses anonymized transaction inputs. Use only de-identified, authorised test data.")
+    st.warning("The model needs all 30 dataset features; scores support review and do not block transactions.")
     features = get_service().registry.metadata("fraud_detection")["features"]
     example = {feature: 0.0 for feature in features}
     example["Amount"] = 100.0
@@ -161,7 +261,7 @@ def fraud_page() -> None:
 
 
 def activity_page() -> None:
-    st.header("Session activity")
+    module_heading("AC", "blue", "MODEL MONITORING", "Session activity", "Prediction records are stored for this Streamlit instance only.")
     service = get_service()
     summary = service.repository.summary()
     left, right = st.columns(2)
@@ -174,9 +274,6 @@ def activity_page() -> None:
         st.info("Predictions made during this app instance will appear here.")
 
 
-st.title("🏦 BankAI")
-st.caption("A Streamlit demonstration of locally trained banking analytics models.")
-
 pages = {
     "Overview": None,
     "Credit risk": credit_risk_page,
@@ -186,15 +283,24 @@ pages = {
     "Fraud screening": fraud_page,
     "Activity": activity_page,
 }
+st.sidebar.markdown('<div class="bankai-brand"><b>◇</b> BankAI</div><p class="platform-label">INTELLIGENCE PLATFORM</p>', unsafe_allow_html=True)
 page_name = st.sidebar.radio("Module", list(pages))
 st.sidebar.divider()
-st.sidebar.caption("Predictions are demonstrative. Do not enter personal, financial, or production data.")
+st.sidebar.markdown("<p class='platform-label'>DEVELOPMENT</p>", unsafe_allow_html=True)
+st.sidebar.caption("Decision support only")
 
 if page_name == "Overview":
-    st.subheader("Deployment-ready demonstration")
-    st.write("Choose a module from the sidebar to run one of the included pretrained models.")
+    st.markdown("<p class='eyebrow'>BANKAI / WORKSPACE</p><h1>One place for your banking intelligence checks.</h1><p class='subhead'>Use sample or authorized information only. Every result is a model estimate, never an automatic decision.</p>", unsafe_allow_html=True)
+    st.markdown("<section class='notice'><b>Before you begin</b><span>Choose a module from the sidebar. Source datasets remain unchanged and the included artifacts load locally.</span></section>", unsafe_allow_html=True)
+    service = get_service()
+    summary = service.repository.summary()
+    metadata = service.registry.all_metadata()
+    first, second, third = st.columns(3)
+    first.metric("Stored predictions", summary["prediction_count"])
+    second.metric("Open fraud alerts", summary["open_fraud_alerts"])
+    third.metric("Trained models", len(metadata))
+    st.markdown("<br><p class='eyebrow'>MODEL MONITORING</p><h2>Actual artifact registry</h2>", unsafe_allow_html=True)
     try:
-        metadata = get_service().registry.all_metadata()
         st.dataframe([
             {"Model": item["model_name"], "Version": item["version"], "Training data": item["dataset"], "Rows": item["rows_used"]}
             for item in metadata
