@@ -1,0 +1,12 @@
+.env
+__pycache__/
+.pytest_cache/
+*.py[cod]
+artifacts/models/*.joblib
+artifacts/models/*.json
+artifacts/data_validation/*.json
+bankai.db
+
+# Local source datasets are too large for GitHub and should be obtained separately.
+dataset/
+

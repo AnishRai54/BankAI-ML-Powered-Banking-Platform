@@ -1,0 +1,2 @@
+"""BankAI FastAPI application."""
+
