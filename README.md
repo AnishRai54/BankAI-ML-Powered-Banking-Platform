@@ -1,5 +1,7 @@
 # BankAI — ML-Powered Banking Platform
 
+https://bankaiml.streamlit.app/
+
 BankAI is a local-development banking intelligence dashboard built from the datasets already present in `dataset/`. It is decision support software: it does not approve loans, block transactions, or certify messages as safe.
 
 ## What is implemented
